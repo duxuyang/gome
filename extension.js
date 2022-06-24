@@ -22,6 +22,7 @@ function activate(context) {
   // 添加图片，图片压缩
   let gomeImg = vscode.commands.registerCommand('gome.chooseImg', async (param, edit) => {
     const filePath = param.path;
+    console.log(filePath)
     // 文件路径是否存在
     if (fs.existsSync(filePath)) {
       const stats = fs.statSync(filePath);
