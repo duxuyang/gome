@@ -2,7 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const fs = require('fs');
-const { compressImg, addImg } = require('./utils/changeImg');
+const { compressImg, addImg } = require('./src/changeImg');
+const { changeCss } = require('./src/changeCss');
 const { regImg } = require('./utils');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -45,7 +46,27 @@ function activate(context) {
       fileList && addImg(param.path, fileList);
     }
   });
+
+  // css 像素转换
+  let cssChange = vscode.commands.registerTextEditorCommand(
+    'gome.changeCss',
+    (textEditor, edit) => {
+
+      //选中文本内容
+      const cssText = textEditor.document.getText(textEditor.selection);
+      // 空字符串过滤
+      if (!cssText.trim()) {
+        return;
+      }
+      // 生成转换后的文本
+      const newCss = changeCss(cssText);
+      // 选中文本替换
+      edit.replace(textEditor.selection, newCss)
+    }
+  )
+
   context.subscriptions.push(gomeImg);
+  context.subscriptions.push(cssChange)
 }
 exports.activate = activate;
 

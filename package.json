@@ -1,8 +1,8 @@
 {
   "name": "gome",
   "displayName": "gome",
-  "description": "gome 工具",
-  "version": "0.0.1",
+  "description": "国美信科前端h5团队工具",
+  "version": "1.0.1",
   "publisher": "duxuyang-666",
   "engines": {
     "vscode": "^1.46.0"
@@ -20,14 +20,32 @@
     "commands": [
       {
         "command": "gome.chooseImg",
-        "title": "添加图片/图片压缩",
-        "key": "Ctrl+Shift+M"
+        "title": "添加图片/图片压缩"
+      },
+      {
+        "command": "gome.changeCss",
+        "title": "pxTopx转换"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "gome.changeCss",
+        "key": "Ctrl+f11",
+        "mac": "cmd+f11",
+        "when": "editorHasSelection"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "gome.chooseImg",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "editorHasSelection",
+          "command": "gome.changeCss",
           "group": "navigation"
         }
       ]
