@@ -21,7 +21,6 @@ const tinifyValidate = (tinify) => {
     tinify.validate((err) => {
       if (err) {
         reject(err);
-        throw err;
       }
       const count = tinify.compressionCount;
       resolve(count);
@@ -29,8 +28,21 @@ const tinifyValidate = (tinify) => {
   });
 };
 
+// tinify 压缩，压缩成功失败都会上传
+function tinifyCompress(tinify, filPath) {
+  return new Promise((resolve, reject) => {
+    tinify.fromFile(filPath).toBuffer((err, resultData) => {
+      if (err) {
+        resolve(filPath);
+      }
+      resolve(resultData);
+    });
+  });
+}
+
 module.exports = {
   regImg,
   tinifyKeyArr,
   tinifyValidate,
+  tinifyCompress
 };

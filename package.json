@@ -2,7 +2,7 @@
   "name": "gome",
   "displayName": "gome",
   "description": "国美信科前端h5团队工具",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "publisher": "duxuyang-666",
   "engines": {
     "vscode": "^1.46.0"
@@ -25,6 +25,10 @@
       {
         "command": "gome.changeCss",
         "title": "pxTopx转换"
+      },
+      {
+        "command": "gome.choosedFile",
+        "title": "选择图片/文件"
       }
     ],
     "keybindings": [
@@ -44,6 +48,11 @@
       ],
       "editor/context": [
         {
+          "when": "editorFocus",
+          "command": "gome.choosedFile",
+          "group": "navigation"
+        },
+        {
           "when": "editorHasSelection",
           "command": "gome.changeCss",
           "group": "navigation"
@@ -52,12 +61,37 @@
     },
     "configuration": [
       {
-        "title": "图片选择配置",
+        "title": "资源上传配置",
         "properties": {
           "img_file.gzip": {
             "type": "boolean",
             "default": "false",
             "description": "是否启用图片压缩"
+          },
+          "img_file.userName": {
+            "type": "string",
+            "default": "",
+            "description": "设置用户名"
+          },
+          "img_file.password": {
+            "type": "string",
+            "default": "",
+            "description": "设置密码"
+          },
+          "img_file.domain": {
+            "type": "string",
+            "default": "",
+            "description": "设置上传后域名"
+          },
+          "img_file.host": {
+            "type": "string",
+            "default": "",
+            "description": "设置服务器地址"
+          },
+          "img_file.port": {
+            "type": "string",
+            "default": "",
+            "description": "设置服务器端口号"
           }
         }
       }
@@ -79,12 +113,13 @@
     "typescript": "^4.1.2",
     "vscode-test": "^1.4.1"
   },
-  "homepage": "https://github.com/duxuyang/gome",
+  "homepage": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/duxuyang/gome"
+    "url": ""
   },
   "dependencies": {
+    "ssh2-sftp-client": "^9.0.4",
     "tinify": "^1.6.1"
   }
 }

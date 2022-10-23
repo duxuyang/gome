@@ -4,6 +4,7 @@ const vscode = require('vscode');
 const fs = require('fs');
 const { compressImg, addImg } = require('./src/changeImg');
 const { changeCss } = require('./src/changeCss');
+const Upload= require('./src/upload');
 const { regImg } = require('./utils');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -23,7 +24,7 @@ function activate(context) {
   // 添加图片，图片压缩
   let gomeImg = vscode.commands.registerCommand('gome.chooseImg', async (param, edit) => {
     const filePath = param.path;
-    console.log(filePath)
+
     // 文件路径是否存在
     if (fs.existsSync(filePath)) {
       const stats = fs.statSync(filePath);
@@ -40,7 +41,7 @@ function activate(context) {
         canSelectFolders: false, // 是否可以选择文件夹,只能选择文件
         canSelectMany: true, // 是否多选
         filters: {
-          images: ['jpg', 'png', 'jpeg', 'webp'],
+          images: ['jpg', 'png', 'jpeg', 'webp', 'gif'],
         },
       });
       fileList && addImg(param.path, fileList);
@@ -65,8 +66,45 @@ function activate(context) {
     }
   )
 
+  // 图片/文件 上传
+  let fileSelect = vscode.commands.registerCommand(
+    'gome.choosedFile',
+    async (textEditor, edit, args) => {
+      // The code you place here will be executed every time your command is executed
+      // Display a message box to the user
+      // vscode.window.showInformationMessage('Hello World from xxmj-upload!')
+      const fileList = await vscode.window.showOpenDialog({
+        canSelectFolders: false, // 是否可以选择文件夹,只能选择文件
+        canSelectMany: true, // 是否多选
+        filters: {
+          images: [
+            'jpg',
+            'png',
+            'jpeg',
+            'webp',
+            'gif',
+            'ico',
+            'svg',
+            'mp3',
+            'mp4',
+            'mov',
+            'js',
+            'ts',
+            'vue',
+            'jsx',
+            'tsx',
+            'json'
+          ]
+        }
+      });
+      let editorPosition = vscode.window.activeTextEditor;
+      new Upload(fileList, editorPosition);
+    }
+  );
+
   context.subscriptions.push(gomeImg);
-  context.subscriptions.push(cssChange)
+  context.subscriptions.push(cssChange);
+  context.subscriptions.push(fileSelect);
 }
 exports.activate = activate;
 
