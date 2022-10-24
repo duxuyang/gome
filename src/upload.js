@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const os = require('os');
 const tinify = require('tinify');
 const Client = require('ssh2-sftp-client');
 const { tinifyKeyArr, tinifyValidate, tinifyCompress } = require('../utils/index');
@@ -8,7 +9,8 @@ const jsreg = /^.*\.(js|ts|vue|jsx|tsx|json)$/i;
 const cssreg = /^.*\.(css|less|scss)$/i;
 
 let tinifyIndex = 0;
-
+// 是否windows
+let isWindows = os.type() === 'Windows_NT';
 class Upload {
   constructor(fileList, editor = null) {
     this.sftp = null;
@@ -112,11 +114,12 @@ class Upload {
         dirName = 'source';
       }
       fileArr.push({
-        filePath,
+        filePath: isWindows ? filePath.replace(/^[/]/, '') : filePath,
         fileName,
         dirName,
       });
     });
+
     const len = fileArr.length; // 请求总数量
     let sendCount = 0;
     let finishCount = 0;
