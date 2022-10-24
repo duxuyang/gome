@@ -2,7 +2,7 @@
   "name": "gome",
   "displayName": "gome",
   "description": "国美信科前端h5团队工具",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "publisher": "duxuyang-666",
   "engines": {
     "vscode": "^1.46.0"
